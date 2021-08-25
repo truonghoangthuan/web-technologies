@@ -1,0 +1,11 @@
+ul li {
+    list-style: none;
+}
+
+.btn-info, .btn-warning {
+    color: white;
+}
+
+.card {
+    background: #E5E5E5;
+}
