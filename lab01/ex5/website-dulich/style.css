@@ -1,0 +1,13 @@
+.carousel-indicators [data-bs-target] {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+}
+
+footer > div > p {
+    margin: 0;
+}
+
+.last-p {
+    margin: 0;
+}
