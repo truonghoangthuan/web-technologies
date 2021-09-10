@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bài tập 1</title>
+    <title>Bài tập 3</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 
@@ -23,21 +23,40 @@
                     <li><a href="https://www.youtube.com/watch?v=il2IrgFHfsg">The Ooooh Cattttttt</a></li>
                 </ul>
             </div>
+
+            <div class="col-sm-9" id="player">
+            </div>
         </div>
     </div>
 
     <script src="youtube.js"></script>
 
+    <script src="jquery.js"></script>
+
     <script>
-        // Mã lệnh được viết tại đây
-        var videoLinks = document.querySelectorAll('a');
-        for (var i = 0; i < videoLinks.length; i++) {
-            var linkURL = videoLinks[i].getAttribute('href');
+        $("a").each(function(){
+            var linkURL = $(this).attr('href');
             var thumbnailURL = youtube.generateThumbnailUrl(linkURL);
-            var thumbnailImg = document.createElement('img');
-            thumbnailImg.setAttribute('src', thumbnailURL);
-            videoLinks[i].appendChild(thumbnailImg);
-        }
+            var thumbnailImg = $('<img>').attr('src', thumbnailURL);
+            $(this).append(thumbnailImg);
+        });
+
+        $("#player").html("<iframe></iframe>");
+        $("iframe").hide();
+
+        $("a").click(function(e) {
+            e.preventDefault();
+            var linkURL = $(this).attr("href");
+            var videoURL = youtube.generateEmbedUrl(linkURL);
+            $("iframe").fadeOut(function () {
+                $("iframe").attr({
+                    src: videoURL,
+                    width: "100%",
+                    height: "500px",
+                })
+                $("iframe").fadeIn();
+            });
+        });
     </script>
 </body>
 

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bài tập 1</title>
+    <title>Bài tập 2</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 
@@ -28,16 +28,15 @@
 
     <script src="youtube.js"></script>
 
+    <script src="jquery.js"></script>
+
     <script>
-        // Mã lệnh được viết tại đây
-        var videoLinks = document.querySelectorAll('a');
-        for (var i = 0; i < videoLinks.length; i++) {
-            var linkURL = videoLinks[i].getAttribute('href');
+        $("a").each(function(){
+            var linkURL = $(this).attr('href');
             var thumbnailURL = youtube.generateThumbnailUrl(linkURL);
-            var thumbnailImg = document.createElement('img');
-            thumbnailImg.setAttribute('src', thumbnailURL);
-            videoLinks[i].appendChild(thumbnailImg);
-        }
+            var thumbnailImg = $('<img>').attr('src', thumbnailURL);
+            $(this).append(thumbnailImg);
+        });
     </script>
 </body>
 
