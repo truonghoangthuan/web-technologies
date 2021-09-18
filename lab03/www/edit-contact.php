@@ -1,5 +1,29 @@
+<?php
+require "../bootstrap.php";
+
+use CT275\Lab3\Contact;
+
+$id = isset($_REQUEST['id']) ?
+    filter_var($_REQUEST['id'], FILTER_VALIDATE_INT) : false;
+if (!$id || ($editedContact = Contact::find($id)) === null) {
+    redirect('/list-contacts.php');
+}
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($editedContact->update($_POST)) {
+        // Cập nhật dữ liệu thành công
+        redirect('/list-contacts.php');
+    }
+    // Cập nhật dữ liệu không thành công
+    $errors = $editedContact->getValidationErrors();
+}
+// Contact được hiển thị trong form
+$contact = $editedContact->toArray();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,11 +31,12 @@
 
     <title>Contacts</title>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">    
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/sticky-footer.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/css/animate.css" rel="stylesheet">   
+    <link href="/css/animate.css" rel="stylesheet">
 </head>
+
 <body>
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
@@ -47,7 +72,7 @@
         </div>
     </nav>
 
-    <!-- Main Page Content --> 
+    <!-- Main Page Content -->
     <div class="container">
         <section id="inner" class="inner-section section">
             <div class="container">
@@ -65,45 +90,42 @@
 
                         <form name="frm" id="frm" action="" method="post" class="col-md-6 col-md-offset-3">
 
-                            <input type="hidden" name="id" value="<?=htmlspecialchars($contact['id'])?>">
+                            <input type="hidden" name="id" value="<?= htmlspecialchars($contact['id']) ?>">
 
                             <!-- Name -->
-                            <div class="form-group<?=isset($errors['name']) ? ' has-error' : '' ?>">
+                            <div class="form-group<?= isset($errors['name']) ? ' has-error' : '' ?>">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control" maxlen="255" id="name" 
-                                    placeholder="Enter Name" value="<?=htmlspecialchars($contact['name'])?>" />
+                                <input type="text" name="name" class="form-control" maxlen="255" id="name" placeholder="Enter Name" value="<?= htmlspecialchars($contact['name']) ?>" />
 
-                                <?php if (isset($errors['name'])): ?>
+                                <?php if (isset($errors['name'])) : ?>
                                     <span class="help-block">
-                                        <strong><?=htmlspecialchars($errors['name'])?></strong>
+                                        <strong><?= htmlspecialchars($errors['name']) ?></strong>
                                     </span>
-                                <?php endif ?>                                
+                                <?php endif ?>
                             </div>
 
                             <!-- Phone -->
-                            <div class="form-group<?=isset($errors['phone']) ? ' has-error' : '' ?>">
+                            <div class="form-group<?= isset($errors['phone']) ? ' has-error' : '' ?>">
                                 <label for="phone">Phone Number</label>
-                                <input type="text" name="phone" class="form-control" maxlen="255" id="phone" 
-                                    placeholder="Enter Phone" value="<?=htmlspecialchars($contact['phone'])?>" />
+                                <input type="text" name="phone" class="form-control" maxlen="255" id="phone" placeholder="Enter Phone" value="<?= htmlspecialchars($contact['phone']) ?>" />
 
-                                <?php if (isset($errors['phone'])): ?>
+                                <?php if (isset($errors['phone'])) : ?>
                                     <span class="help-block">
-                                        <strong><?=htmlspecialchars($errors['phone'])?></strong>
+                                        <strong><?= htmlspecialchars($errors['phone']) ?></strong>
                                     </span>
-                                <?php endif ?>                                  
+                                <?php endif ?>
                             </div>
 
                             <!-- Description -->
-                            <div class="form-group<?=isset($errors['notes']) ? ' has-error' : '' ?>">
+                            <div class="form-group<?= isset($errors['notes']) ? ' has-error' : '' ?>">
                                 <label for="description">Notes </label>
-                                <textarea name="notes" id="notes" class="form-control" 
-                                    placeholder="Enter notes (maximum character limit: 255)"><?=htmlspecialchars($contact['notes'])?></textarea>
+                                <textarea name="notes" id="notes" class="form-control" placeholder="Enter notes (maximum character limit: 255)"><?= htmlspecialchars($contact['notes']) ?></textarea>
 
-                                <?php if (isset($errors['notes'])): ?>
+                                <?php if (isset($errors['notes'])) : ?>
                                     <span class="help-block">
-                                        <strong><?=htmlspecialchars($errors['notes'])?></strong>
+                                        <strong><?= htmlspecialchars($errors['notes']) ?></strong>
                                     </span>
-                                <?php endif ?>                                 
+                                <?php endif ?>
                             </div>
 
                             <!-- Submit -->
@@ -115,21 +137,22 @@
 
             </div>
         </section>
-    </div> 
+    </div>
 
     <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Copyright &copy; 2016 Web Development Course</p>
-      </div>
-    </footer>    
+        <div class="container">
+            <p class="text-muted">Copyright &copy; 2016 Web Development Course</p>
+        </div>
+    </footer>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/wow.min.js"></script>
     <script>
-        $(document).ready(function(){
-            new WOW().init();          
+        $(document).ready(function() {
+            new WOW().init();
         });
     </script>
 </body>
+
 </html>
