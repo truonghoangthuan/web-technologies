@@ -138,7 +138,7 @@ $contacts = CT275\Lab3\Contact::all();
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script src="/js/wow.min.js"></script>
+    <script src="./js/wow.min.js"></script>
     <script>
         $(document).ready(function() {
             new WOW().init();
