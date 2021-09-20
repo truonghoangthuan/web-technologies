@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $books = Book::all();
 ?>
+
 <style>
 	table,
 	th,
@@ -26,6 +27,7 @@ $books = Book::all();
 		width: 150px;
 	}
 </style>
+
 <h2>Add new book</h2>
 <form method="POST">
 	<label>Title:</label> <input type="text" name="title" /> <br><br>
@@ -38,6 +40,13 @@ $books = Book::all();
 	<input type="submit" name="submit" value="Save" />
 </form>
 <hr>
+
+<form action="search.php" method="get">
+	Search: <input type="text" name="search" />
+	<input type="submit" name="ok" value="search" />
+</form>
+<hr>
+
 <h2>List of books: </h2>
 <table style="width:100%">
 	<tr>

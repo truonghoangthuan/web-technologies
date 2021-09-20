@@ -134,6 +134,7 @@ values (:name, :phone, :notes, now(), now())"
         }
         return $contact;
     }
+    
     public function update(array $data)
     {
         $this->fill($data);
