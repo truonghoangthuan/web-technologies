@@ -94,8 +94,10 @@ $contacts = CT275\Lab3\Contact::all();
                                             strtotime($contact->created_at)
                                         )) ?></td>
                                     <td><?= htmlspecialchars($contact->notes) ?></td>
-                                    <td><a href="/edit-contact.php?id=<?= htmlspecialchars($contact->id) ?>" class="btn btn-xs btn-warning">
-                                            <i alt="Edit" class="fa fa-pencil"> Edit</i></a>
+                                    <td>
+                                        <a href="/edit-contact.php?id=<?= htmlspecialchars($contact->id) ?>" class="btn btn-xs btn-warning">
+                                            <i alt="Edit" class="fa fa-pencil"> Edit</i>
+                                        </a>
                                         <form class="delete" action="/del-contact.php" method="POST" style="display: inline;">
                                             <input type="hidden" name="id" value="<?= htmlspecialchars($contact->id) ?>">
                                             <button type="submit" class="btn btn-xs btn-danger" name="delete-contact">
