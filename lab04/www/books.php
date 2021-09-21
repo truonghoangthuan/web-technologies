@@ -3,6 +3,11 @@ require "../bootstrap.php";
 
 use CT275\Lab4\Book;
 
+use Gregwar\Captcha\CaptchaBuilder;
+
+$builder = new CaptchaBuilder;
+$builder->build();
+
 $books = Book::all();
 ?>
 
@@ -34,6 +39,12 @@ $books = Book::all();
 
 	<form action="search-books.php" method="get">
 		Search: <input type="text" name="search">
+		<br>
+
+		<img src="<?php echo $builder->inline(); ?>">
+		<input type="text" name="phrase">
+		<br>
+
 		<button type="submit">Search</button>
 	</form>
 	<hr>

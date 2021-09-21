@@ -5,6 +5,7 @@ if (DEBUG) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
+session_save_path('C:\xampp\tmp');
 session_start();
 require __DIR__ . "/vendor/autoload.php";
 

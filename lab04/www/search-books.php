@@ -1,10 +1,17 @@
-<?php require "../bootstrap.php"; ?>
 <?php
+require "../bootstrap.php";
+
+use Gregwar\Captcha\PhraseBuilder;
 
 use CT275\Lab4\Book;
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $books = Book::where('title', '=', $_GET['search'])->get();
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    // Checking that the posted phrase match the phrase stored in the session
+    if (isset($_GET['phrase']) && PhraseBuilder::comparePhrases($_GET['phrase'], $_GET['phrase'])) {
+        $books = Book::where('title', '=', $_GET['search'])->get();
+    } else {
+        echo "<h1>Captcha is not valid!</h1>";
+    }
 }
 ?>
 
@@ -30,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             <th>Description</th>
             <th>Author</th>
         </tr>
-        <?php foreach ($books as $book): ?>
+        <?php foreach ($books as $book) : ?>
             <tr>
                 <td><?= $book->title ?></td>
                 <td><?= $book->pages_count ?></td>
