@@ -8,7 +8,13 @@ use CT275\Lab4\Book;
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Checking that the posted phrase match the phrase stored in the session
     if (isset($_GET['phrase']) && PhraseBuilder::comparePhrases($_GET['phrase'], $_GET['phrase'])) {
-        $books = Book::where('title', '=', $_GET['search'])->get();
+        $keyword = "%" . $_GET['search'] . "%";
+        $books = Book::join('authors', 'authors.id', '=', 'books.author_id')
+            ->where('books.title', 'like', $keyword)
+            ->orWhere('authors.first_name', 'like', $keyword)
+            ->orWhere('authors.last_name', 'like', $keyword)
+            ->orWhereRaw("CONCAT(authors.first_name, ' ', authors.last_name) LIKE ?", $keyword)
+            ->get();
     } else {
         echo "<h1>Captcha is not valid!</h1>";
     }
@@ -48,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             </tr>
         <?php endforeach ?>
     </table>
+    <a href="books.php">Back to homepage</a>
 </body>
 
 </html>
