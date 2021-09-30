@@ -8,9 +8,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once ROOTDIR.'vendor/autoload.php';
+require_once ROOTDIR.'vendor\autoload.php';
 require_once ROOTDIR.'db.php';
 
+session_save_path('C:\xampp\tmp');
 session_start();
 
 use \App\Router;
@@ -29,6 +30,9 @@ Router::post('/login', '\App\Controllers\Auth\LoginController@login');
 // Contact routes
 Router::get('/', '\App\Controllers\HomeController@index');
 Router::get('/home', '\App\Controllers\HomeController@index');
+
+// 404 error
+Router::error('\App\Controllers\Controller@notFound');
 
 Router::dispatch();
 
