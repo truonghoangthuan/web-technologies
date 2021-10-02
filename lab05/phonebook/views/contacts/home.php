@@ -10,7 +10,8 @@
 <!-- Kiểm tra session alert thêm contact -->
 <?php
 if (!empty($_SESSION['alert'])) {
-    echo '<script>alert("Add contact successfully!");</script>';
+    $message = $_SESSION['alert'];
+    echo '<script>alert("'. $message .'");</script>';
     $_SESSION['alert'] = '';
 }
 ?>

@@ -24,6 +24,7 @@ class ContactsController extends Controller
         echo $this->view->render('contacts/home', $data);
     }
 
+    // Thêm contact.
     public function add()
     {
         $data = [
@@ -65,6 +66,7 @@ class ContactsController extends Controller
         ];
     }
 
+    // Chỉnh sửa.
     public function edit($contactId)
     {
         $contact = Contact::find($contactId);
@@ -92,20 +94,29 @@ class ContactsController extends Controller
         }
         $data = $this->getContactData();
         if ($contact->validate($data)) {
-            $contact->fill($data)->save();
-            redirect('/');
+            if ($contact->fill($data)->save()) {
+                $alert = [
+                    'alert' => 'Edit contact successfully'
+                ];
+            };
+            redirect('/', $alert);
         }
         $this->saveFormValues();
         redirect('/contacts/edit/' . $contactId, ['errors' => $contact->getErrors()]);
     }
 
+    // Chức năng xóa.
     public function delete($contactId)
     {
         $contact = Contact::find($contactId);
         if (!$contact || ($contact->user_id !== Guard::user()->id)) {
             $this->notFound();
         }
-        $contact->delete();
-        redirect('/');
+        if ($contact->delete()) {
+            $alert = [
+                'alert' => 'Delete contact successfully'
+            ];
+        };
+        redirect('/', $alert);
     }
 }
