@@ -6,6 +6,15 @@
 <?php $this->stop() ?>
 
 <?php $this->start("page") ?>
+
+<!-- Kiểm tra session alert thêm contact -->
+<?php
+if (!empty($_SESSION['alert'])) {
+    echo '<script>alert("Add contact successfully!");</script>';
+    $_SESSION['alert'] = '';
+}
+?>
+
 <div class="container">
     <section id="inner" class="inner-section section">
         <!-- SECTION HEADING -->

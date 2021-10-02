@@ -42,8 +42,13 @@ class ContactsController extends Controller
         if ($contact->validate($data)) {
             $contact->fill($data);
             $contact->user_id = Guard::user()->id;
-            $contact->save();
-            redirect('/');
+            // Lưu thông báo thành công khi thêm contact.
+            if ($contact->save()) {
+                $alert = [
+                    'alert' => 'Add contact successfully'
+                ];
+            }
+            redirect('/', $alert);
         }
         // Lưu các giá trị của form vào $_SESSION['form'] 
         $this->saveFormValues();
