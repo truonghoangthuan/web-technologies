@@ -1,6 +1,6 @@
 <?php
 
-define('ROOTDIR', realpath(dirname(__DIR__)).DIRECTORY_SEPARATOR);
+define('ROOTDIR', realpath(dirname(__DIR__)) . DIRECTORY_SEPARATOR);
 define('APPNAME', 'My Phonebook');
 define('DEBUG', true);
 
@@ -10,9 +10,10 @@ if (DEBUG) {
     error_reporting(E_ALL);
 }
 
-require_once ROOTDIR.'vendor/autoload.php';
-require_once ROOTDIR.'db.php';
+require_once ROOTDIR . 'vendor/autoload.php';
+require_once ROOTDIR . 'db.php';
 
+session_save_path('C:\xampp\tmp');
 session_start();
 
 use \App\Router;
@@ -39,6 +40,7 @@ Router::post('/contacts/(:num)', '\App\Controllers\ContactsController@update');
 Router::post('/contacts/delete/(:num)', '\App\Controllers\ContactsController@delete');
 
 // Contact APIs
-
+Router::get('/api/v1/contacts/(:num)', '\App\Controllers\ContactsApiController@getContactById');
+Router::post('/api/v1/contacts', '\App\Controllers\ContactsApiController@create');
 
 Router::dispatch();
