@@ -35,16 +35,6 @@ class ContactsApiController extends Controller
         }
     }
 
-    // Hàm lấy data của contact để edit.
-    protected function getContactData()
-    {
-        return [
-            'name' => filter_var(trim($_POST['name']), FILTER_SANITIZE_STRING),
-            'phone' => preg_replace('/[^0-9]+/', '', $_POST['phone']),
-            'notes' => filter_var(trim($_POST['notes']), FILTER_SANITIZE_STRING)
-        ];
-    }
-
     // API chỉnh sửa contact.
     public function edit($contactId)
     {
@@ -52,7 +42,10 @@ class ContactsApiController extends Controller
         if (!$contact) {
             $this->notFound();
         }
-        $data = $this->getContactData();
+
+        $requestBody = file_get_contents('php://input');
+        $data = json_decode($requestBody, true);
+
         if ($contact->validate($data)) {
             if ($contact->fill($data)->save()) {
                 send_json_success(['contact' => $contact->toArray()]);
@@ -60,5 +53,17 @@ class ContactsApiController extends Controller
                 send_json_fail($contact->getErrors());
             }
         }
+    }
+
+    // API xóa contact.
+    public function delete($contactId)
+    {
+        $contact = Contact::find($contactId);
+        if (!$contact) {
+            $this->notFound();
+        }
+        $contact->delete();
+        $message = ['success' => 'Contact deleted'];
+        send_json_success(['message' => $message]);
     }
 }
