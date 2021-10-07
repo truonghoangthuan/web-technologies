@@ -26,6 +26,7 @@ if (!function_exists('session_get_once')) {
     }
 }
 
+// Hàm api thông báo gửi json thành công.
 if (!function_exists('send_json_success')) {
     function send_json_success(array $data = null, $code = 200)
     {
@@ -39,6 +40,7 @@ if (!function_exists('send_json_success')) {
     }
 }
 
+// Hàm thông báo gửi json không thành công.
 if (!function_exists('send_json_fail')) {
     function send_json_fail(array $data = null, $code = 400)
     {
@@ -52,8 +54,9 @@ if (!function_exists('send_json_fail')) {
     }
 }
 
+// Hàm thông báo gửi json lỗi.
 if (!function_exists('send_json_error')) {
-    function send_json_error($message, array $data = null, $code = 400)
+    function send_json_error($message, array $data = null, $code = 500)
     {
         http_response_code($code);
         header('Content-Type: application/json');

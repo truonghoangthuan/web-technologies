@@ -42,5 +42,6 @@ Router::post('/contacts/delete/(:num)', '\App\Controllers\ContactsController@del
 // Contact APIs
 Router::get('/api/v1/contacts/(:num)', '\App\Controllers\ContactsApiController@getContactById');
 Router::post('/api/v1/contacts', '\App\Controllers\ContactsApiController@create');
+Router::post('/api/v1/contacts/edit/(:num)', '\App\Controllers\ContactsApiController@edit');
 
 Router::dispatch();
