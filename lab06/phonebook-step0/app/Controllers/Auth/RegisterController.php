@@ -14,7 +14,7 @@ class RegisterController extends Controller
         if (Guard::checkLogin()) {
             redirect('/home');
         }
-        
+
         parent::__construct();
     }
 
@@ -24,7 +24,7 @@ class RegisterController extends Controller
         $data = [
             'old' => session_get_once('form'),
             'errors' => session_get_once('errors')
-        ];  
+        ];
 
         // Tạo và hiển thị view
         echo $this->view->render('auth/register', $data);
@@ -62,12 +62,15 @@ class RegisterController extends Controller
         ];
     }
 
+    // Hàm tạo user mới.
     protected function createUser($data)
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => password_hash($data['password'], PASSWORD_DEFAULT)
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+            'public_hash' => hash('sha256', openssl_random_pseudo_bytes(32)),
+            'private_hash' => hash('sha256', openssl_random_pseudo_bytes(32))
         ]);
     }
 }
