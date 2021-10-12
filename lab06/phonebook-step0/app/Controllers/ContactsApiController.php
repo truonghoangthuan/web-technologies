@@ -8,18 +8,18 @@ use App\ApiTokenGuard;
 class ContactsApiController extends Controller
 {
     // Thông tin người dùng được chứng thực.
-    protected $user;
+    // protected $user;
 
-    public function __contruct() {
-        $apiGuard = new ApiTokenGuard();
+    // public function __contruct() {
+    //     $apiGuard = new ApiTokenGuard();
         
-        if(!$apiGuard->verifyToken()) {
-            send_json_fail(['message' => 'Unauthenticated'], 401);
-        }
+    //     if(!$apiGuard->verifyToken()) {
+    //         send_json_fail(['message' => 'Unauthenticated'], 401);
+    //     }
 
-        $this->user = $apiGuard->getUser();
-        parent::__contruct();
-    }
+    //     $this->user = $apiGuard->getUser();
+    //     parent::__contruct();
+    // }
 
     // API lấy thông tin contact từ id.
     public function getContactById($contactId)
