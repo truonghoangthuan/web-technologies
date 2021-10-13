@@ -8,18 +8,19 @@ use App\ApiTokenGuard;
 class ContactsApiController extends Controller
 {
     // Thông tin người dùng được chứng thực.
-    // protected $user;
+    protected $user;
 
-    // public function __contruct() {
-    //     $apiGuard = new ApiTokenGuard();
-        
-    //     if(!$apiGuard->verifyToken()) {
-    //         send_json_fail(['message' => 'Unauthenticated'], 401);
-    //     }
+    public function __construct()
+    {
+        $apiGuard = new ApiTokenGuard();
 
-    //     $this->user = $apiGuard->getUser();
-    //     parent::__contruct();
-    // }
+        if (!$apiGuard->verifyToken()) {
+            send_json_fail(['message' => 'Unauthenticated'], 401);
+        }
+
+        $this->user = $apiGuard->getUser();
+        parent::__construct();
+    }
 
     // API lấy thông tin contact từ id.
     public function getContactById($contactId)
@@ -80,5 +81,28 @@ class ContactsApiController extends Controller
         $contact->delete();
         $message = ['success' => 'Contact deleted'];
         send_json_success(['message' => $message]);
+    }
+
+    // Hàm lấy danh sách contact.
+    public function getAllContacts()
+    {
+        $userId = $this->user->id;
+        $contacts = Contact::where('user_id', $userId)->get();
+        send_json_success(['list' => $contacts]);
+    }
+
+    // Hàm tìm kiếm theo tên contact.
+    public function search()
+    {
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $parts = parse_url($url);
+        parse_str($parts['query'], $query);
+
+        $keyword = $query['name'];
+        $userId = $this->user->id;
+        $result = Contact::where('user_id', $userId)
+            ->where('name', 'like', '%' . $keyword . '%')
+            ->get();
+        send_json_success(['contact' => $result]);
     }
 }
